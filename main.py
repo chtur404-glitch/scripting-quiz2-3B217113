@@ -1,4 +1,4 @@
-order = [{"purchase_itmes":"午餐","purchase_amounts":10.5},{"purchase_itmes":"午餐","purchase_amounts":1}]
+order = []
 while True:
     func = input("--- 消費紀錄統計系統 ---\n1. 新增消費\n2. 顯示消費明細\n3. 顯示統計\n4. 退出系統\n------------------------\n請選擇功能: ").strip()
     if func=="":
@@ -18,10 +18,10 @@ while True:
             print("請盡量輸入2個字的內容，不然會很醜ww")
         while True:
             purchase_amounts = input("請輸入消費金額: ").strip()
-            if func=="":
+            if purchase_amounts=="":
                 print("請輸入內容")
                 continue
-            if not purchase_amounts.isdigit() and not purchase_amounts.isascii():
+            if not purchase_amounts.isdigit() or not purchase_amounts.isascii():
                 print("請輸入半形數字")
                 continue
             if purchase_amounts.count(".")>1:
@@ -43,11 +43,9 @@ while True:
             continue
         print("編號  項目          金額\n------------------------")
         for ind,o in enumerate(order):
-            print(f"{ind:>4d} {o.get('purchase_itmes'):>3s} {o.get('purchase_amounts'):>13.2f}")
+            print(f"{ind+1:>4d} {o.get('purchase_itmes'):>3s} {o.get('purchase_amounts'):>13.2f}")
         print()
         
-
-
     elif func=="3":
         print("--- 消費統計 ---")
         if not order:
@@ -55,13 +53,12 @@ while True:
             continue
         c = len(order)
         total = 0
-        average = 0
         for o in order:
             total+=o.get('purchase_amounts')
         average = total/c
-        if total>500:
+        if total>=500:
             mes = "已達提醒門檻"
-        elif total>300:
+        elif total>=300:
             mes = "注意控制消費"
         else:
             mes = "消費不多"
@@ -69,8 +66,6 @@ while True:
         print(f"總金額: {total:.2f} 元")
         print(f"平均每筆金額: {average:.2f} 元")
         print(f"消費提醒: {mes}\n")
-
-        
 
     elif func=="4":
         print("系統已退出")
